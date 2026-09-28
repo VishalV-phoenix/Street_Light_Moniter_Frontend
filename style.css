@@ -1,0 +1,12 @@
+h1,h2,h3,h4,span,p{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+}
+#main_cont{
+    border: 1px solid black;
+    font-family: 'Courier New', Courier, monospace;
+}
+#main_cont tr td{
+    padding: 5px;
+    
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Live Device Monitor</h2>
+    <p>Status: <span id="status">Connecting...</span></p>
+
+<!--     Node container template
+    <div>
+        <p><b>MAC Address:</b> <span id="mac">-</span></p>
+        <p><b>LED Status:</b> <span id="led">-</span></p>
+        <p><b>LDR Value (Light):</b> <span id="ldr">-</span></p>
+        <p><b>Last Update Timeline:</b> <span id="timeline">-</span></p>
+    </div> -->
+    <!-- Node Containers -->
+    <table id="main_cont"> 
+
+    </table>
+    <h3>Raw Data Stream Log:</h3>
+    <span id="log">
+    </span>
+  <script src="index.js" ></script>
+  <script src="socket.js"></script>
+</body>
+</html>

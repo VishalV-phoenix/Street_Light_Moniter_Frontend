@@ -11,22 +11,37 @@ class NodeUI {
     const MAC_ADDR_TD = document.createElement("TD");
     const LDR_VALUE_TD = document.createElement("TD");
     const TIMELINE_TD = document.createElement("TD");
+    const IS_LIVE_TD = document.createElement("TD");
+    const LAST_BEAT_TD = document.createElement("TD");
+
 
     TR.appendChild(NODE_ID_TD);
     TR.appendChild(MAC_ADDR_TD);
     TR.appendChild(LED_STATUS_TD);
     TR.appendChild(LDR_VALUE_TD);
     TR.appendChild(TIMELINE_TD);
+    TR.appendChild(IS_LIVE_TD);
+    TR.appendChild(LAST_BEAT_TD);
+
 
     NODE_ID_TD.textContent = this.node_id;
     MAC_ADDR_TD.textContent = this.mac_addr;
     LED_STATUS_TD.textContent = this.led_status ? "ON" : "OFF";
     LDR_VALUE_TD.textContent = this.ldr_value;
     TIMELINE_TD.textContent = this.time;
+    IS_LIVE_TD.textContent = this.is_live;
+    LAST_BEAT_TD.textContent = this.last_beat;
 
-    LED_STATUS_TD.style.backgroundColor = this.led_status
-      ? "#99ff99"
-      : "#ff9999";
+
+    LED_STATUS_TD.style.color = this.led_status
+      ? "#0b720b"
+      : "#870202";
+    TR.style.color = this.is_live == "live"
+      ? "#000"
+      : "#444";
+    TR.style.backgroundColor = this.is_live == "live"
+      ? "#fff"
+      : "#888";
     this.MAIN_CONT.appendChild(TR);
   }
 
@@ -37,6 +52,8 @@ class NodeUI {
       <th>LED</th>
       <th>LDR</th>
       <th>Time</th>
+      <th>Status</th>
+      <th>Last Active</th>
       </tr>`;
 
     const DATA = JSON.parse(data);
@@ -45,33 +62,31 @@ class NodeUI {
       this.mac_addr = DATA[key].mac_address; // DATA["1"]["mac_address"]
       this.led_status = DATA[key].led_status;
       this.ldr_value = DATA[key].ldr_value;
-      this.Time_formatting(DATA[key].connected_at);
+      this.is_live = DATA[key].node_status;
+      this.last_beat = this.Time_formatting(DATA[key].last_beat);
+      this.time = this.Time_formatting(DATA[key].connected_at);
       this.node_ui();
     }
   }
 
   Time_formatting(connected_at) {
-    // 2. Convert both the timestamp string and current time into milliseconds
-    const pastDate = new Date(connected_at.replace(" ", "T")); // Formatting string for cross-browser safety
+    const pastDate = new Date(connected_at.replace(" ", "T"));
     const currentDate = new Date();
 
-    // 3. Subtract to find the exact difference in milliseconds
     const differenceInMs = currentDate - pastDate;
 
-    // 4. Convert milliseconds into total seconds and minutes
     const totalSeconds = Math.floor(differenceInMs / 1000);
     const totalMinutes = Math.floor(totalSeconds / 60);
     const totalHours = Math.floor(totalMinutes / 60);
 
-    // 5. Generate your relative timeline string based on the duration
     if (totalSeconds < 60) {
-      this.time = "Just now";
+      return `${totalSeconds} sec ago`;
     } else if (totalMinutes < 60) {
-      this.time = `${totalMinutes} min ago`;
+      return `${totalMinutes} min ago`;
     } else if (totalHours < 24) {
-      this.time = `${totalHours} hours ago`;
+      return `${totalHours} hours ago`;
     } else {
-      this.time = pastDate.toLocaleDateString(); // Fallback to normal date if it's days ago
+      return pastDate.toLocaleDateString();
     }
   }
 }

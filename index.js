@@ -77,6 +77,6 @@ class NodeUI {
 }
 
 //new NodeUI(`{"1":{"node_id":"1", "mac_address":"ff:ff:ff:ff:ff", "led_status":false, "ldr_value":1000, "connected_at":"2026-06-12 10:20:12"}}`)
-new NodeUI(
-  `{"1":{"node_id":"1", "mac_address":"ff:ff:ff:ff:ff", "led_status":true, "ldr_value":1000, "connected_at":"2026-06-12 10:20:12"},"2":{"node_id":"2", "mac_address":"ff:ff:ff:ff:ff", "led_status":false, "ldr_value":1000, "connected_at":"2026-09-24 17:20:12"}}`,
-);
+// new NodeUI(
+//   `{"1":{"node_id":"1", "mac_address":"ff:ff:ff:ff:ff", "led_status":true, "ldr_value":1000, "connected_at":"2026-06-12 10:20:12"},"2":{"node_id":"2", "mac_address":"ff:ff:ff:ff:ff", "led_status":false, "ldr_value":1000, "connected_at":"2026-09-24 17:20:12"}}`,
+// );

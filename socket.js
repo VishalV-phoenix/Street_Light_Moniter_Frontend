@@ -1,5 +1,5 @@
 const socket = new WebSocket(
-  "wss://protocol-defining-sri-madonna.trycloudflare.com/ws",
+  "ws://localhost:8000/ws",
 );
 const statusText = document.getElementById("status");
 

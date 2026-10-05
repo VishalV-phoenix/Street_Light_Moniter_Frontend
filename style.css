@@ -10,3 +10,16 @@ h1,h2,h3,h4,span,p{
     padding: 5px;
     
 }
+
+#log{
+    color: white;
+    overflow: auto;
+    height: 200px;
+}
+
+#log>p{
+    font-family: monospace;
+    background-color: black;
+    margin: 0;
+    padding: 5px 10px;
+}

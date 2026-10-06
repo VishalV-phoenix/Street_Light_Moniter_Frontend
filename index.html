@@ -3,35 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Street Light Monitor - Google Map View</title>
+    <title>Street Light Monitor - OpenStreetMap View</title>
+    <!-- Leaflet OpenStreetMap CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Fullscreen Google Maps Road Canvas -->
-    <canvas id="roadCanvas"></canvas>
+    <!-- Fullscreen OpenStreetMap Container -->
+    <div id="map"></div>
 
-    <!-- Google Maps Map Style Selector -->
+    <!-- Hover details tooltip for placed poles (in Saved/View mode) -->
+    <div id="poleTooltip" class="pole-tooltip" style="display: none;"></div>
+
+    <!-- Edit Mode Top Banner -->
+    <div id="editModeBanner" class="edit-mode-banner" style="display: none;">
+        <span>✏️</span>
+        <span>Edit Mode: Drag poles from table to position on map. Click <strong>Save</strong> when done.</span>
+    </div>
+
+    <!-- OpenStreetMap Style Selector & Edit Mode Toggle -->
     <div class="map-controls">
         <div class="style-toggle" id="styleToggle">
-            <button class="style-btn active" data-style="city">City (White)</button>
-            <button class="style-btn" data-style="highway">Highway (Yellow)</button>
+            <button class="style-btn active" data-style="standard">Standard</button>
+            <button class="style-btn" data-style="light">Light</button>
             <button class="style-btn" data-style="dark">Night</button>
+        </div>
+        <button class="edit-mode-btn" id="editModeBtn" title="Toggle Edit / Save Mode">
+            <span class="edit-btn-icon">✏️</span>
+            <span class="edit-btn-text">Edit</span>
+        </button>
+        <!-- Notification Bell in Map Controls -->
+        <button class="notify-bell-btn" id="notifyBellBtn" title="Fault Alerts">
+            <span class="bell-icon">🔔</span>
+            <span class="fault-badge" id="faultBadge">0</span>
+        </button>
+    </div>
+
+    <!-- Fault Alerts Notification Panel (shown when bell is clicked) -->
+    <div id="faultNotifyPanel" class="fault-notify-panel" style="display: none;">
+        <div class="notify-panel-header">
+            <div class="notify-panel-title">
+                <span class="notify-title-icon">🚨</span>
+                <h4>Fault Alerts (<span id="notifyFaultCount">0</span>)</h4>
+            </div>
+            <button class="notify-close-btn" id="closeNotifyPanelBtn" title="Close Panel">✕</button>
+        </div>
+        <div class="notify-panel-body" id="faultNotifyList">
+            <!-- Dynamic fault items rendered here -->
         </div>
     </div>
 
-    <!-- Google Maps Footer Branding & Scale -->
+    <!-- OpenStreetMap Footer Branding & Scale -->
     <div class="map-footer-left">
-        <span class="gmap-logo">Google</span>
+        <span class="osm-logo">OpenStreetMap</span>
         <div class="map-scale" id="mapScale">
             <span class="scale-bar"></span>
             <span class="scale-text">100 m</span>
         </div>
     </div>
 
-    <!-- Google Maps Zoom Controls -->
+    <!-- OpenStreetMap Zoom Controls -->
     <div class="map-footer-right">
         <div class="zoom-controls">
             <button class="zoom-btn" id="zoomIn" title="Zoom In">+</button>
@@ -42,20 +76,51 @@
     <!-- Live Device Monitor HUD Card (Collapsible) -->
     <div class="monitor-card" id="monitorCard">
         <div class="monitor-header">
-            <h3>Live Device Monitor</h3>
-            <span class="status-badge" id="statusBadge">
-                <span class="status-dot"></span>
-                <span id="status">Connecting...</span>
-            </span>
-            <button class="toggle-card-btn" id="toggleMonitorBtn" title="Toggle Monitor Panel">−</button>
+            <div class="monitor-title-wrap">
+                <h3>Live Device Monitor</h3>
+                <span class="status-badge" id="statusBadge">
+                    <span class="status-dot"></span>
+                    <span id="status">Connecting...</span>
+                </span>
+            </div>
+            <div class="monitor-header-actions">
+                <button class="sidebar-bell-btn" id="sidebarBellBtn" title="View Fault Alerts">
+                    <span>🔔</span>
+                    <span class="sidebar-fault-pill" id="sidebarFaultBadge">0</span>
+                </button>
+                <button class="toggle-card-btn" id="toggleMonitorBtn" title="Toggle Monitor Panel">−</button>
+            </div>
         </div>
         <div class="monitor-body" id="monitorBody">
+            <!-- Sidebar Working / Active & Fault Status Summary Cards -->
+            <div class="sidebar-status-cards">
+                <div class="status-pill active-pill" id="filterBtnActive" title="Show Active Working Poles">
+                    <span class="pill-dot green"></span>
+                    <span class="pill-text">Working / Active</span>
+                    <span class="pill-count" id="activePolesCount">0</span>
+                </div>
+                <div class="status-pill fault-pill" id="filterBtnFault" title="Show Fault Poles">
+                    <span class="pill-dot red"></span>
+                    <span class="pill-text">Fault / Offline</span>
+                    <span class="pill-count" id="faultPolesCount">0</span>
+                </div>
+            </div>
+
+            <!-- List Filter Tabs -->
+            <div class="sidebar-tabs">
+                <button class="tab-btn active" data-filter="all" id="tabAll">All (<span id="allCount">0</span>)</button>
+                <button class="tab-btn" data-filter="active" id="tabActive">Working (<span id="tabActiveCount">0</span>)</button>
+                <button class="tab-btn tab-fault" data-filter="fault" id="tabFault">Fault (<span id="tabFaultCount">0</span>)</button>
+            </div>
+
             <table id="main_cont"></table>
             <h4>Raw Data Stream Log:</h4>
             <div id="log" class="log-stream"></div>
         </div>
     </div>
 
+    <!-- Leaflet JS library for OpenStreetMap -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="road.js"></script>
     <script src="index.js"></script>
     <script src="socket.js"></script>

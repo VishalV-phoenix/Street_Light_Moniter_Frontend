@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="100%" height="100%">
+  <defs>
+    <!-- Fault glow filter -->
+    <filter id="faultGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Base & Foundation -->
+  <rect x="11" y="55" width="12" height="3" rx="1" fill="#475569" />
+  <path d="M 13 55 L 15 51 L 19 51 L 21 55 Z" fill="#64748b" />
+
+  <!-- Main Vertical Pole Mast -->
+  <path d="M 17 51 L 17.5 19" stroke="#475569" stroke-width="3" stroke-linecap="round" />
+  <path d="M 16.5 51 L 17 19" stroke="#94a3b8" stroke-width="1" stroke-linecap="round" opacity="0.6" />
+
+  <!-- Curved Highway Cantilever Mast Arm -->
+  <path d="M 17.5 22 C 17.5 10, 24 7, 38 7 L 44 7" fill="none" stroke="#475569" stroke-width="2.8" stroke-linecap="round" />
+  <path d="M 18 19 C 20.5 12, 26 9, 36 8.5" fill="none" stroke="#64748b" stroke-width="1" opacity="0.5" />
+
+  <!-- Aerodynamic Modern Cobra-head Luminaire Fixture -->
+  <path d="M 37 7.5 L 42 5.5 L 50 6.5 C 52.5 7.2, 52.5 9.8, 50 10.5 L 39 10.5 Z" fill="#334155" />
+  
+  <!-- Red Warning Fault Indicator at Fixture -->
+  <rect x="41" y="9.5" width="8" height="2" rx="1" fill="#ef4444" />
+  <circle cx="45" cy="10.5" r="3" fill="#f87171" filter="url(#faultGlow)" opacity="0.8" />
+  <circle cx="45" cy="10.5" r="1.5" fill="#dc2626" />
+
+  <!-- Fault Alert Badge -->
+  <g transform="translate(48, 26)">
+    <circle cx="0" cy="0" r="7.5" fill="#ef4444" stroke="#ffffff" stroke-width="1.5" />
+    <line x1="0" y1="-3.5" x2="0" y2="0.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+    <circle cx="0" cy="3.5" r="1" fill="#ffffff" />
+  </g>
+</svg>

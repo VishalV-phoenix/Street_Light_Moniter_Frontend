@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="100%" height="100%">
+  <defs>
+    <!-- Downward radiant light beam gradient -->
+    <linearGradient id="beamGradOn" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fde047" stop-opacity="0.85" />
+      <stop offset="35%" stop-color="#facc15" stop-opacity="0.45" />
+      <stop offset="85%" stop-color="#eab308" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#ca8a04" stop-opacity="0.0" />
+    </linearGradient>
+
+    <!-- Glowing lens filter -->
+    <filter id="lampGlowOn" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Radiant Light Beam Cone -->
+  <polygon points="41,11 49,11 57,54 31,54" fill="url(#beamGradOn)" />
+  <ellipse cx="44" cy="54" rx="13" ry="3" fill="#fef08a" opacity="0.35" />
+
+  <!-- Base & Foundation -->
+  <rect x="11" y="55" width="12" height="3" rx="1" fill="#334155" />
+  <path d="M 13 55 L 15 51 L 19 51 L 21 55 Z" fill="#475569" />
+
+  <!-- Main Vertical Pole Mast -->
+  <path d="M 17 51 L 17.5 19" stroke="#334155" stroke-width="3" stroke-linecap="round" />
+  <path d="M 16.5 51 L 17 19" stroke="#64748b" stroke-width="1" stroke-linecap="round" opacity="0.7" />
+
+  <!-- Curved Highway Cantilever Mast Arm -->
+  <path d="M 17.5 22 C 17.5 10, 24 7, 38 7 L 44 7" fill="none" stroke="#334155" stroke-width="2.8" stroke-linecap="round" />
+  <path d="M 18 19 C 20.5 12, 26 9, 36 8.5" fill="none" stroke="#64748b" stroke-width="1" opacity="0.6" />
+
+  <!-- Aerodynamic Modern Cobra-head Luminaire Fixture -->
+  <path d="M 37 7.5 L 42 5.5 L 50 6.5 C 52.5 7.2, 52.5 9.8, 50 10.5 L 39 10.5 Z" fill="#1e293b" />
+  
+  <!-- Glowing LED Lens -->
+  <rect x="41" y="9.5" width="8" height="2" rx="1" fill="#fde047" />
+  <circle cx="45" cy="11" r="3.2" fill="#fef08a" filter="url(#lampGlowOn)" />
+  <circle cx="45" cy="11" r="1.5" fill="#ffffff" />
+</svg>

@@ -3,29 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-
+    <title>Street Light Monitor - Google Map View</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h2>Live Device Monitor</h2>
-    <p>Status: <span id="status">Connecting...</span></p>
+    <!-- Fullscreen Google Maps Road Canvas -->
+    <canvas id="roadCanvas"></canvas>
 
-<!--     Node container template
-    <div>
-        <p><b>MAC Address:</b> <span id="mac">-</span></p>
-        <p><b>LED Status:</b> <span id="led">-</span></p>
-        <p><b>LDR Value (Light):</b> <span id="ldr">-</span></p>
-        <p><b>Last Update Timeline:</b> <span id="timeline">-</span></p>
-    </div> -->
-    <!-- Node Containers -->
-    <table id="main_cont"> 
-
-    </table>
-    <h3>Raw Data Stream Log:</h3>
-    <div id="log">
+    <!-- Google Maps Map Style Selector -->
+    <div class="map-controls">
+        <div class="style-toggle" id="styleToggle">
+            <button class="style-btn active" data-style="city">City (White)</button>
+            <button class="style-btn" data-style="highway">Highway (Yellow)</button>
+            <button class="style-btn" data-style="dark">Night</button>
+        </div>
     </div>
-  <script src="index.js" ></script>
-  <script src="socket.js"></script>
+
+    <!-- Google Maps Footer Branding & Scale -->
+    <div class="map-footer-left">
+        <span class="gmap-logo">Google</span>
+        <div class="map-scale" id="mapScale">
+            <span class="scale-bar"></span>
+            <span class="scale-text">100 m</span>
+        </div>
+    </div>
+
+    <!-- Google Maps Zoom Controls -->
+    <div class="map-footer-right">
+        <div class="zoom-controls">
+            <button class="zoom-btn" id="zoomIn" title="Zoom In">+</button>
+            <button class="zoom-btn" id="zoomOut" title="Zoom Out">−</button>
+        </div>
+    </div>
+
+    <!-- Live Device Monitor HUD Card (Collapsible) -->
+    <div class="monitor-card" id="monitorCard">
+        <div class="monitor-header">
+            <h3>Live Device Monitor</h3>
+            <span class="status-badge" id="statusBadge">
+                <span class="status-dot"></span>
+                <span id="status">Connecting...</span>
+            </span>
+            <button class="toggle-card-btn" id="toggleMonitorBtn" title="Toggle Monitor Panel">−</button>
+        </div>
+        <div class="monitor-body" id="monitorBody">
+            <table id="main_cont"></table>
+            <h4>Raw Data Stream Log:</h4>
+            <div id="log" class="log-stream"></div>
+        </div>
+    </div>
+
+    <script src="road.js"></script>
+    <script src="index.js"></script>
+    <script src="socket.js"></script>
 </body>
 </html>
